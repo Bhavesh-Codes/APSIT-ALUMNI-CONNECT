@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APSIT Alumni Connect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <img src="apsit.png" alt="APSIT Logo" class="login-logo">
+                </div>
+                <h1>APSIT Alumni Connect</h1>
+                <p>Connect, Learn, and Grow Together</p>
+            </div>
+            <form class="login-form">
+                <div class="role-selection">
+                    <div class="role-option" data-role="student">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Student</span>
+                    </div>
+                    <div class="role-option" data-role="alumni">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Alumni</span>
+                    </div>
+                    <div class="role-option" data-role="admin">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <input type="email" id="loginEmail" placeholder="Email Address" required>
+                <div class="password-field">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" data-target="loginPassword" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <button type="button" id="loginBtn" class="btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="#" id="showRegister">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signupConfirmation" class="signup-confirmation hidden">
+        <div class="confirmation-container">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Account Created Successfully!</h2>
+            <p>Your account has been created. Please log in with your credentials.</p>
+            <button class="btn-primary" onclick="showLoginScreen()">Go to Login</button>
+        </div>
+    </div>
+
+    <div id="registerScreen" class="login-screen hidden">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <img src="apsit.png" alt="APSIT Logo" class="login-logo">
+                </div>
+                <h2>Join APSIT Alumni Connect</h2>
+                <p>Create your account to get started</p>
+            </div>
+            <form class="login-form">
+                <input type="text" id="regName" placeholder="Full Name" required>
+                <input type="email" id="regEmail" placeholder="Email Address" required>
+                <div class="password-field">
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" data-target="regPassword" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="password-field">
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+                    <button type="button" class="password-toggle" data-target="regConfirmPassword" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <select id="regRole" required>
+                    <option value="">Select Role</option>
+                    <option value="student">Current Student</option>
+                    <option value="alumni">Alumni</option>
+                </select>
+                <select id="regBranch" required>
+                    <option value="">Select Branch</option>
+                    <option value="Computer Engineering">Computer Engineering</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                </select>
+                <input type="number" id="regYear" placeholder="Graduation Year (e.g., 2024)" min="2000" max="2030" required>
+                <button type="button" id="registerBtn" class="btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            <div class="signup-link">
+                <p>Already have an account? <a href="#" id="showLogin">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="app-logo">
+                    <img src="apsit.png" alt="APSIT Logo" class="sidebar-logo">
+                </div>
+                <h2>APSIT Connect</h2>
+            </div>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('networking')">
+                    <i class="fas fa-users"></i>
+                    <span>Alumni Network</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('mentorship')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Mentorship</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('events')">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Events</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="notification-badge" id="notificationBadge">8</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="menu-item hidden" id="adminPanelLink" onclick="showSection('admin')">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin Panel</span>
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar-placeholder">BB</div>
+                    <div class="user-details">
+                        <div class="user-name">Bhavesh Bisht</div>
+                        <div class="user-role">Student</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+        <main class="main-content" id="mainContent">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="top-bar-actions">
+                    <button class="notification-btn" onclick="showSection('notifications')">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count" id="notificationCount">8</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="dashboard" class="section-content">
+                <div class="welcome-banner">
+                    <h2>Welcome back, Bhavesh! 👋</h2>
+                    <p>Stay connected with your APSIT community and explore new opportunities</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>2,847</h3>
+                            <p>Alumni Connected</p>
+                            <span class="stat-change">+12% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>156</h3>
+                            <p>Job Openings</p>
+                            <span class="stat-change">+8 new today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>23</h3>
+                            <p>Upcoming Events</p>
+                            <span class="stat-change">Next: Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>94</h3>
+                            <p>Active Mentors</p>
+                            <span class="stat-change">+5 this week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Recent Activities</h3>
+                            <button class="view-all-btn" onclick="showSection('notifications')">View All</button>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="avatar-placeholder-small">AK</div>
+                                <div class="activity-content">
+                                    <p><strong>Amit Kumar</strong> posted a new job at Infosys</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                                <button class="activity-action">View</button>
+                            </div>
+                            <div class="activity-item">
+                                <div class="avatar-placeholder-small">PS</div>
+                                <div class="activity-content">
+                                    <p><strong>Priya Sharma</strong> shared startup success story</p>
+                                    <span class="activity-time">4 hours ago</span>
+                                </div>
+                                <button class="activity-action">Read</button>
+                            </div>
+                            <div class="activity-item">
+                                <div class="avatar-placeholder-small">RG</div>
+                                <div class="activity-content">
+                                    <p><strong>Rahul Gupta</strong> completed PhD at IIT Bombay</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                                <button class="activity-action">Congratulate</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions">
+                            <div class="action-btn" onclick="showSection('networking')">
+                                <i class="fas fa-search"></i>
+                                <span>Find Alumni</span>
+                            </div>
+                            <div class="action-btn" onclick="showSection('mentorship')">
+                                <i class="fas fa-handshake"></i>
+                                <span>Find Mentor</span>
+                            </div>
+                            <div class="action-btn" onclick="showSection('events')">
+                                <i class="fas fa-calendar-plus"></i>
+                                <span>Browse Events</span>
+                            </div>
+                            <div class="action-btn" onclick="showSection('profile')">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Update Profile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profile" class="section-content hidden">
+                <div class="profile-container">
+                    <div class="profile-header-card">
+                        <div class="profile-banner"></div>
+                        <div class="profile-info">
+                            <div class="profile-avatar-large">
+                                <div class="avatar-placeholder-large">BB</div>
+                            </div>
+                            <div class="profile-details">
+                                <h2>Bhavesh Bisht</h2>
+                                <p>Final Year Student | Aspiring Software Engineer</p>
+                                <p><i class="fas fa-map-marker-alt"></i> Thane, Maharashtra</p>
+                                
+                                <div id="verificationStatus" class="hidden"></div>
+
+                                <div class="profile-stats-row">
+                                    <span><i class="fas fa-graduation-cap"></i>Information Technology</span>
+                                    <span><i class="fas fa-calendar"></i> Expected 2026</span>
+                                    <span><i class="fas fa-users"></i> 45 Connections</span>
+                                </div>
+                                <button class="edit-profile-btn">
+                                    <i class="fas fa-edit"></i> Edit Profile
+                                </button>
+                                <button id="upgradeToAlumniBtn" class="btn-primary upgrade-btn hidden" onclick="showVerificationModal()">
+                                    <i class="fas fa-user-graduate"></i> Graduate? Upgrade to Alumni
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-content-grid">
+                        <div class="profile-section-card">
+                            <div class="section-header">
+                                <h3>About</h3>
+                                <button class="edit-btn" title="Edit About">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="editable-content">
+                                <p>Passionate computer engineering student with interests in web development, machine learning, and software engineering. Currently working on projects involving React, Node.js, and Python. Looking to connect with industry professionals and contribute to innovative tech solutions.</p>
+                            </div>
+                        </div>
+
+                        <div class="profile-section-card">
+                            <div class="section-header">
+                                <h3>Skills</h3>
+                                <button class="add-btn" title="Add Skill">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="skills-container">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">HTML/CSS</span>
+                                <span class="skill-tag">MongoDB</span>
+                                <span class="skill-tag">Git</span>
+                                <span class="skill-tag">Machine Learning</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-section-card">
+                            <div class="section-header">
+                                <h3>Experience</h3>
+                                <button class="add-btn" title="Add Experience">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="experience-list">
+                                <div class="experience-item">
+                                    <div class="experience-logo">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="experience-details">
+                                        <h4>Frontend Developer Intern</h4>
+                                        <div class="company">TechStart Solutions</div>
+                                        <div class="duration">Jun 2024 - Aug 2024</div>
+                                        <div class="description">Developed responsive web applications using React and collaborated with the design team to implement user-friendly interfaces. Improved website performance by 30%.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section-card">
+                            <div class="section-header">
+                                <h3>Education</h3>
+                                <button class="add-btn" title="Add Education">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="education-list">
+                                <div class="education-item">
+                                    <div class="education-logo">
+                                        <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="education-details">
+                                        <h4>Bachelor of Engineering in Information Technology </h4>
+                                        <div class="institution">A.P. Shah Institute of Technology</div>
+                                        <div class="duration">2022 - 2026 (Expected)</div>
+                                        <div class="grade">Current CGPA: 8.7/10</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="networking" class="section-content hidden">
+                <div class="section-header-with-tabs">
+                    <h2>Alumni Network</h2>
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="switchTab('alumni-tab', this)">Alumni</button>
+                        <button class="tab-btn" onclick="switchTab('jobs-tab', this)">Job Board</button>
+                    </div>
+                </div>
+
+                <div id="alumni-tab" class="tab-content">
+                    <div class="filter-bar">
+                        <input type="text" id="alumniSearch" placeholder="Search by name, company, or skills..." onkeypress="if(event.key==='Enter') searchAlumni()">
+                        <select id="branchFilter" onchange="filterAlumni()">
+                            <option value="">All Branches</option>
+                            <option value="Computer Engineering">Computer Engineering</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                        </select>
+                        <select id="locationFilter" onchange="filterAlumni()">
+                            <option value="">All Locations</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                        </select>
+                        <button class="btn-primary" onclick="searchAlumni()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+
+                    <div class="grid-container" id="alumniGrid">
+                    </div>
+                </div>
+
+                <div id="jobs-tab" class="tab-content hidden">
+                    <div class="filter-bar">
+                        <input type="text" placeholder="Search jobs..." onkeypress="if(event.key==='Enter') searchJobs()">
+                        <select onchange="filterJobs()">
+                            <option value="">All Types</option>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Part Time">Part Time</option>
+                        </select>
+                        <button class="btn-primary" onclick="searchJobs()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+
+                    <div class="jobs-grid" id="jobsGrid">
+                    </div>
+                </div>
+            </div>
+
+            <div id="mentorship" class="section-content hidden">
+                <div class="section-header-with-tabs">
+                    <h2>Mentorship Program</h2>
+                </div>
+
+                <div class="dashboard-card" id="mentorLeaderboard">
+                    <div class="card-header">
+                        <h3>🏆 Top Mentors</h3>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <input type="text" id="mentorSearch" placeholder="Search mentors by expertise..." onkeypress="if(event.key==='Enter') searchMentors()">
+                    <select id="expertiseFilter" onchange="filterMentors()">
+                        <option value="">All Expertise</option>
+                        <option value="Software Development">Software Development</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Product Management">Product Management</option>
+                        <option value="Entrepreneurship">Entrepreneurship</option>
+                    </select>
+                    <button class="btn-primary" onclick="searchMentors()">
+                        <i class="fas fa-search"></i> Find Mentors
+                    </button>
+                </div>
+
+                <div class="grid-container" id="mentorsGrid">
+                </div>
+            </div>
+
+            <div id="events" class="section-content hidden">
+                <div class="events-header">
+                    <div class="events-title">
+                        <h2><i class="fas fa-calendar-alt"></i> Upcoming Events</h2>
+                        <p>Stay connected through networking events, workshops, and reunions</p>
+                    </div>
+                    <button class="btn-primary create-event-btn">
+                        <i class="fas fa-plus"></i> Create Event
+                    </button>
+                </div>
+
+                <div class="events-filter-bar">
+                    <div class="filter-group">
+                        <label><i class="fas fa-search"></i></label>
+                        <input type="text" placeholder="Search events..." class="events-search">
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-tag"></i></label>
+                        <select class="event-type-filter">
+                            <option value="">All Types</option>
+                            <option value="Meetup">Meetups</option>
+                            <option value="Webinar">Webinars</option>
+                            <option value="Workshop">Workshops</option>
+                            <option value="Reunion">Reunions</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar"></i></label>
+                        <select class="event-time-filter">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="events-grid" id="eventsGrid">
+                </div>
+            </div>
+
+            <div id="notifications" class="section-content hidden">
+                <div class="notifications-header">
+                    <div class="notifications-title">
+                        <h2><i class="fas fa-bell"></i> Notifications</h2>
+                        <span class="unread-count">3 unread</span>
+                    </div>
+                    <div class="notifications-actions">
+                        <button class="btn-secondary mark-all-read">
+                            <i class="fas fa-check-double"></i> Mark All Read
+                        </button>
+                        <button class="btn-secondary clear-read">
+                            <i class="fas fa-trash-alt"></i> Clear Read
+                        </button>
+                    </div>
+                </div>
+
+                <div class="notifications-filter">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="unread">Unread</button>
+                        <button class="filter-tab" data-filter="job">Jobs</button>
+                        <button class="filter-tab" data-filter="connection">Connections</button>
+                        <button class="filter-tab" data-filter="event">Events</button>
+                        <button class="filter-tab" data-filter="mentorship">Mentorship</button>
+                    </div>
+                </div>
+
+                <div class="notifications-list" id="notificationsList">
+                </div>
+            </div>
+
+            <div id="analytics" class="section-content hidden">
+                <div class="analytics-header">
+                    <h2>APSIT Alumni Analytics</h2>
+                    <p>Insights into our growing alumni community and their achievements</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Alumni by Branch</h3>
+                        <div class="chart-container">
+                            <div class="donut-chart-container">
+                                <div class="donut-chart"></div>
+                                <div class="donut-center-label">
+                                    <span>Total</span>
+                                    <strong>2,847</strong>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item comps"><span></span>Computer Eng (40%)</div>
+                                <div class="legend-item it"><span></span>Information Tech (30%)</div>
+                                <div class="legend-item mech"><span></span>Mechanical (20%)</div>
+                                <div class="legend-item extc"><span></span>EXTC (10%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Alumni by Location</h3>
+                        <div class="chart-container">
+                            <div class="pie-chart-container">
+                                <div class="pie-chart"></div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item mumbai"><span></span>Mumbai (35%)</div>
+                                <div class="legend-item pune"><span></span>Pune (25%)</div>
+                                <div class="legend-item bangalore"><span></span>Bangalore (25%)</div>
+                                <div class="legend-item other"><span></span>Others (15%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card large">
+                        <h3>Top Employers</h3>
+                        <div class="chart-container">
+                            <div class="companies-list">
+                                <div class="company-stat">
+                                    <span class="company-name">Google</span>
+                                    <div class="company-bar">
+                                        <div class="bar-fill" style="width: 100%"></div>
+                                    </div>
+                                    <span class="company-count">245</span>
+                                </div>
+                                <div class="company-stat">
+                                    <span class="company-name">Microsoft</span>
+                                    <div class="company-bar">
+                                        <div class="bar-fill" style="width: 85%"></div>
+                                    </div>
+                                    <span class="company-count">208</span>
+                                </div>
+                                <div class="company-stat">
+                                    <span class="company-name">Amazon</span>
+                                    <div class="company-bar">
+                                        <div class="bar-fill" style="width: 70%"></div>
+                                    </div>
+                                    <span class="company-count">172</span>
+                                </div>
+                                <div class="company-stat">
+                                    <span class="company-name">TCS</span>
+                                    <div class="company-bar">
+                                        <div class="bar-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="company-count">147</span>
+                                </div>
+                                <div class="company-stat">
+                                    <span class="company-name">Infosys</span>
+                                    <div class="company-bar">
+                                        <div class="bar-fill" style="width: 45%"></div>
+                                    </div>
+                                    <span class="company-count">110</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card large">
+                        <h3>Alumni Growth Over Years</h3>
+                        <div class="chart-container">
+                            <div class="simple-chart">
+                                <div class="chart-bar" style="height: 60%" data-bar-value="145">
+                                    <span>2019</span>
+                                </div>
+                                <div class="chart-bar" style="height: 75%" data-bar-value="186">
+                                    <span>2020</span>
+                                </div>
+                                <div class="chart-bar" style="height: 85%" data-bar-value="234">
+                                    <span>2021</span>
+                                </div>
+                                <div class="chart-bar" style="height: 95%" data-bar-value="287">
+                                    <span>2022</span>
+                                </div>
+                                <div class="chart-bar" style="height: 100%" data-bar-value="312">
+                                    <span>2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin" class="section-content hidden">
+                <div class="admin-header">
+                    <h2><i class="fas fa-user-shield"></i> Admin Verification Dashboard</h2>
+                    <p>Review and process requests from students to upgrade their accounts to Alumni status.</p>
+                </div>
+        
+                <div class="dashboard-card">
+                     <div class="card-header">
+                        <h3>Pending Verifications</h3>
+                     </div>
+                     <div class="table-container">
+                        <table class="verification-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Graduation Year</th>
+                                    <th>Document</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verificationTableBody">
+                            </tbody>
+                        </table>
+                     </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="alertContainer" class="alert-container"></div>
+
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Alumni Profile</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <div id="verificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Alumni Account Verification</h3>
+                <span class="close" onclick="document.getElementById('verificationModal').style.display='none'">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>To upgrade your account from 'Student' to 'Alumni', please upload your degree certificate or final marksheet for verification.</p>
+                <form id="verificationForm">
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="degreeUpload" required>
+                        <label for="degreeUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Choose a file...</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 20px;">Submit for Verification</button>
+                </form>
+                <small>Your document will be reviewed by the admin team. This process may take 2-3 business days.</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
